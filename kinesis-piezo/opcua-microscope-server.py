@@ -18,7 +18,7 @@ async def main():
     # setup our server
     server = Server()
     await server.init()
-    server.set_endpoint('opc.tcp://localhost:4840/freeopcua/server/')
+    server.set_endpoint('opc.tcp://192.168.1.232:4840/freeopcua/server/')
 
     # setup our own namespace, not really necessary but should as spec
     uri = 'http://examples.freeopcua.github.io'
@@ -32,8 +32,8 @@ async def main():
     rateVar = await stepParametersObj.add_variable(idx, 'rate', 100.0)
     accelVar = await stepParametersObj.add_variable(idx, 'accel', 500.0)
 
-    setXVar = await setPositionObj.add_variable(idx, 'SetX', 0.0)
-    setYVar = await setPositionObj.add_variable(idx, 'SetY', 0.0)
+    setXVar = await setPositionObj.add_variable(idx, 'SetX', 100.0)
+    setYVar = await setPositionObj.add_variable(idx, 'SetY', 100.0)
 
     vars=[rateVar,accelVar,setXVar,setYVar]
     # Set vars to be writable by clients
@@ -45,7 +45,7 @@ async def main():
     _logger.info('Starting server!')
     async with server:
         while True:
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
             rate = await rateVar.get_value()
             accel = await accelVar.get_value()
             setX = await setXVar.get_value()
@@ -56,8 +56,8 @@ async def main():
             _logger.info('X is %.1f', setX)
             _logger.info('Y is %.1f', setY)
             #_logger.info('Set value of %s to %.1f', myvar2, new_val_2)
-            await setXVar.write_value(setX+0.1)
-            await setYVar.write_value(setY+0.2)
+            await setXVar.write_value(setX*-1)
+            await setYVar.write_value(setY*-1)
             #await myvar.write_value(new_val)
             #await myvar2.write_value(new_val_2)
 
