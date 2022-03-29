@@ -8,14 +8,14 @@ import time
 # this way.
 from System import Decimal
 clr.AddReference("System")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.DeviceManagerCLI.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.GenericPiezoCLI.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.PiezoCLI.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.StrainGaugeCLI.dll")
+clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.DeviceManagerCLI.dll")
+clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.GenericPiezoCLI.dll")
+clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.PiezoCLI.dll")
+clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.StrainGaugeCLI.dll")
 #clr.AddReference(r"C:\Program Files\Thorlabs\Kinesis\Thorlabs.MotionControl.KCube.Piezo.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.PiezoCLI.dll")
+clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.PiezoCLI.dll")
 #clr.AddReference(r"C:\Program Files\Thorlabs\Kinesis\Thorlabs.MotionControl.KCube.InertialMotor.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.InertialMotorCLI.dll")
+clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.InertialMotorCLI.dll")
 from Thorlabs.MotionControl.DeviceManagerCLI import DeviceManagerCLI
 from Thorlabs.MotionControl.GenericPiezoCLI import Piezo
 #from Thorlabs.MotionControl.TCube.PiezoCLI import *
@@ -380,6 +380,10 @@ class InertialController(ThorStages):
         # Initialize
         if self.device_search():
             self.initialize()
+        else:
+            print("Not connected")
+            while True:
+                pass
         # Calibration variables
         self.a = None
         self.b = None
@@ -553,7 +557,8 @@ if __name__ == "__main__":
     # Create an object of the PiezoController class. The numbers, are the
     # serial numbers of the controller and the reader respectively.
     #mypiezo = InertialController(81000001,84000001) 97101189
-    mypiezo = InertialController(97101189)
+    #mypiezo = InertialController(97101189)#REAL ONE
+    mypiezo = InertialController(97000001)
     mychannel = InertialMotorStatus.MotorChannels.Channel1
     mypiezo.setStepParameters(mychannel,rate=100,accel=500)
     mypiezo.zeroDevice(mychannel)
