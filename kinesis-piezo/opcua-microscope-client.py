@@ -13,14 +13,14 @@ import time
 # this way.
 from System import Decimal
 clr.AddReference("System")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.DeviceManagerCLI.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.GenericPiezoCLI.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.PiezoCLI.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.StrainGaugeCLI.dll")
+clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.DeviceManagerCLI.dll")
+clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.GenericPiezoCLI.dll")
+clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.PiezoCLI.dll")
+clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.StrainGaugeCLI.dll")
 #clr.AddReference(r"C:\Program Files\Thorlabs\Kinesis\Thorlabs.MotionControl.KCube.Piezo.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.PiezoCLI.dll")
+clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.PiezoCLI.dll")
 #clr.AddReference(r"C:\Program Files\Thorlabs\Kinesis\Thorlabs.MotionControl.KCube.InertialMotor.dll")
-clr.AddReference(r"C:\Users\Hymowitz\Documents\senior-design\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.InertialMotorCLI.dll")
+clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.InertialMotorCLI.dll")
 from Thorlabs.MotionControl.DeviceManagerCLI import DeviceManagerCLI
 from Thorlabs.MotionControl.GenericPiezoCLI import Piezo
 #from Thorlabs.MotionControl.TCube.PiezoCLI import *
@@ -33,24 +33,24 @@ from Thorlabs.MotionControl.KCube.InertialMotorCLI import *
 
 from piezo import *
 
-
-
 class XHandler(object):
+    xPos = 0
     def datachange_notification(self, node, val, data):
         print("Moving X ",val)
-        mypiezo.move(xchannel, position=val-xPos)
-        xPos=val
+        mypiezo.move(xchannel, position=int(val-self.xPos))
+        self.xPos=val
     def event_notification(self, event):
         print("New event", event)
 class YHandler(object):
+    yPos = 0
     def datachange_notification(self, node, val, data):
         print("Moving Y ", val)
-        mypiezo.move(ychannel, position=val-yPos)
-        yPos=val
+        mypiezo.move(ychannel, position=int(val-self.yPos))
+        self.yPos=val
     def event_notification(self, event):
         print("New event", event)
 async def main(): # insert varibale and wait tiime for while loop
-    url = "opc.tcp://localhost:4840/freeopcua/server/"
+    url = "opc.tcp://192.168.1.232:4840/freeopcua/server/"
     async with Client(url=url) as client:
         _logger.info("Root node is: %r", client.nodes.root)
         _logger.info("Objects node is: %r", client.nodes.objects)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     
     #mypiezo = InertialController(97101189)#REAL ONE
 
-    mypiezo = InertialController(97000001)
+    mypiezo = InertialController(97101189)
     xchannel = InertialMotorStatus.MotorChannels.Channel1
     ychannel = InertialMotorStatus.MotorChannels.Channel2
     mypiezo.setStepParameters(xchannel,rate=100,accel=500)
