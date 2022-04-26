@@ -1,4 +1,4 @@
-# senior-design
+# Adaptive Correlative Microscopy System
 2022 Senior Design Project by Tyler Wright and Jack Hymowitz. 
 
 Proof of concept for a correlative microscopy system running on Beaglebone Black.
