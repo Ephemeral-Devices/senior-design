@@ -16,6 +16,7 @@ The OPC-UA architecture contains four nodes:
 1. Clone this repo in your desired project directory on a computer with direct access to the microscope stage and camera
 2. Download the Thorlabs Kinesis Example Projects from [here](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10285) and edit the DLL paths in `opcua-microscope-client` to match your download path
 3. Download the [Thorlabs Windows SDK for Scientific Cameras](https://www.thorlabs.com/software_pages/viewsoftwarepage.cfm?code=ThorCam) and extract into your project directory. Navigate to `Scientific Camera Interfaces/Python_README.txt` and follow the instructions
-4. You should now be able to run `opcua-microscope-client` and `camclient`! `opcua-microscope-server` and `camserver` may either be run on the same or a separate machine, and need only be clone and run
+4. Set the hardware-facing windows machine's IP address to `192.168.1.232:4840`
+5. You should now be able to run `opcua-microscope-client` and `camclient`! `opcua-microscope-server` and `camserver` may either be run on the same or a separate machine, and need only be clone and run
 
 Special thanks to Prof. Kevin Lu and Terrence McGuckin for helping us make this happen!
