@@ -12,15 +12,23 @@ import time
 # Needed for the use of Decimal class of c#. Requires clr to import System in
 # this way.
 from System import Decimal
+from os import getenv
+
+main_dll_dir = rf"{getenv('USERPROFILE')}\Documents\senior-design-main\kinesis-piezo\libs\kinesis"
+dll_names = [
+    "Thorlabs.MotionControl.DeviceManagerCLI.dll",
+    "Thorlabs.MotionControl.GenericPiezoCLI.dll",
+    "Thorlabs.MotionControl.TCube.PiezoCLI.dll",
+    "Thorlabs.MotionControl.TCube.StrainGaugeCLI.dll",
+    "Thorlabs.MotionControl.KCube.Piezo.dll",
+    "Thorlabs.MotionControl.KCube.PiezoCLI.dll",
+    # "Thorlabs.MotionControl.KCube.InertialMotor.dll",
+    "Thorlabs.MotionControl.KCube.InertialMotorCLI.dll",
+]
+
 clr.AddReference("System")
-clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.DeviceManagerCLI.dll")
-clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.GenericPiezoCLI.dll")
-clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.PiezoCLI.dll")
-clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.TCube.StrainGaugeCLI.dll")
-#clr.AddReference(r"C:\Program Files\Thorlabs\Kinesis\Thorlabs.MotionControl.KCube.Piezo.dll")
-clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.PiezoCLI.dll")
-#clr.AddReference(r"C:\Program Files\Thorlabs\Kinesis\Thorlabs.MotionControl.KCube.InertialMotor.dll")
-clr.AddReference(r"C:\Users\terre\Documents\senior-design-main\kinesis-piezo\libs\kinesis\Thorlabs.MotionControl.KCube.InertialMotorCLI.dll")
+for dll_name in dll_names:
+    clr.AddReference(main_dll_dir + dll_name)
 from Thorlabs.MotionControl.DeviceManagerCLI import DeviceManagerCLI
 from Thorlabs.MotionControl.GenericPiezoCLI import Piezo
 #from Thorlabs.MotionControl.TCube.PiezoCLI import *
