@@ -1,9 +1,5 @@
-
-
-
 import logging
 import asyncio
-import sys
 from asyncua import ua, Server
 from asyncua.common.methods import uamethod
 
@@ -12,17 +8,13 @@ class OpcuaServer:
         self._logger = logging.getLogger('asyncua')
         self.server = None
 
-    @uamethod
-    def func(self, parent, value):
-        return value * 2
-    
-
+    @staticmethod
     async def add_variable(server, parent_obj, namespace_idx, variable_name, initial_value):
         return await parent_obj.add_variable(namespace_idx, variable_name, initial_value)
 
+    @staticmethod
     async def add_object(server, parent_obj, namespace_idx, object_name):
         return await parent_obj.add_object(namespace_idx, object_name)
-
 
     async def setup_server(self):
         self.server = Server()
@@ -31,7 +23,7 @@ class OpcuaServer:
         uri = 'http://examples.freeopcua.github.io'
         idx = await self.server.register_namespace(uri)
 
-
+        # Add print statements for step_parameters_obj and idx
         step_parameters_obj = await OpcuaServer.add_object(self.server, self.server.nodes.objects, idx, 'StepParameters')
         set_position_obj = await OpcuaServer.add_object(self.server, self.server.nodes.objects, idx, 'SetPosition')
 
@@ -43,12 +35,8 @@ class OpcuaServer:
 
         self.vars = [rate_var, accel_var, set_x_var, set_y_var]
 
-
         for var in self.vars:
             await var.set_writable()
-
-
-
 
     async def run_server(self):
         self._logger.info('Starting server!')
