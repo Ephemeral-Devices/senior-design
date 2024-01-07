@@ -35,6 +35,11 @@ async def main():
     setXVar = await setPositionObj.add_variable(idx, 'SetX', 10.0)
     setYVar = await setPositionObj.add_variable(idx, 'SetY', 10.0)
 
+        # self.rate_var = await self.step_parameters_obj.add_variable(self.idx, 'rate', self.set_rate_var)
+        # self.accel_var = await self.step_parameters_obj.add_variable(self.idx, 'accel', self.set_acc_var)
+
+        # self.set_x_var = await self.set_position_obj.add_variable(self.idx, 'SetX', self.set_x_value)
+        # self.set_y_var = await self.set_position_obj.add_variable(self.idx, 'SetY', self.set_y_value)
     vars=[rateVar,accelVar,setXVar,setYVar]
     # Set vars to be writable by clients
     for var in vars:
