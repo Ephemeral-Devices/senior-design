@@ -1,8 +1,12 @@
 import logging
 import asyncio
+import sys
+sys.path.insert(0, "..")
+
 from asyncua import ua, Server
 from asyncua.common.methods import uamethod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 class OpcuaServer:
     def __init__(self):
@@ -74,9 +78,17 @@ class MyServer:
         self.set_y_value = y_value
         await self.set_y_var.write_value(y_value)
 >>>>>>> 4f41d8e (Add new feature)
+=======
+
+
+@uamethod
+def func(parent, value):
+    return value * 2
+>>>>>>> 12154ff (server_sqlite)
 
         self.vars = [rate_var, accel_var, set_x_var, set_y_var]
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         for var in self.vars:
             await var.set_writable()
@@ -123,11 +135,66 @@ class MyServer:
 #     asyncio.run(my_server.start(), debug=True)
 
 >>>>>>> 4f41d8e (Add new feature)
+=======
+async def main():
+    _logger = logging.getLogger('asyncua')
+    # setup our server
+    server = Server()
+    await server.init()
+    server.set_endpoint('opc.tcp://127.0.0.1:4840/freeopcua/server/')
+
+    # setup our own namespace, not really necessary but should as spec
+    uri = 'http://examples.freeopcua.github.io'
+    idx = await server.register_namespace(uri)
+
+    # populating our address space
+    # server.nodes, contains links to very common nodes like objects and root
+    stepParametersObj = await server.nodes.objects.add_object(idx, 'StepParameters')
+    setPositionObj = await server.nodes.objects.add_object(idx, 'SetPosition')
+
+    rateVar = await stepParametersObj.add_variable(idx, 'rate', 100.0)
+    accelVar = await stepParametersObj.add_variable(idx, 'accel', 500.0)
+
+    setXVar = await setPositionObj.add_variable(idx, 'SetX', 10.0)
+    setYVar = await setPositionObj.add_variable(idx, 'SetY', 10.0)
+
+        # self.rate_var = await self.step_parameters_obj.add_variable(self.idx, 'rate', self.set_rate_var)
+        # self.accel_var = await self.step_parameters_obj.add_variable(self.idx, 'accel', self.set_acc_var)
+
+        # self.set_x_var = await self.set_position_obj.add_variable(self.idx, 'SetX', self.set_x_value)
+        # self.set_y_var = await self.set_position_obj.add_variable(self.idx, 'SetY', self.set_y_value)
+    vars=[rateVar,accelVar,setXVar,setYVar]
+    # Set vars to be writable by clients
+    for var in vars:
+        await var.set_writable()
+
+    #don't know what this does
+    #await server.nodes.objects.add_method(ua.NodeId('ServerMethod', 2), ua.QualifiedName('ServerMethod', 2), func, [ua.VariantType.Int64], [ua.VariantType.Int64])
+    _logger.info('Starting server!')
+    async with server:
+        while True:
+            await asyncio.sleep(2)
+            rate = await rateVar.get_value()
+            accel = await accelVar.get_value()
+            setX = await setXVar.get_value()
+            setY = await setYVar.get_value()
+            
+            _logger.info('Rate is %.1f', rate)
+            _logger.info('Accel is %.1f', accel)
+            _logger.info('X is %.1f', setX)
+            _logger.info('Y is %.1f', setY)
+            #_logger.info('Set value of %s to %.1f', myvar2, new_val_2)
+            await setXVar.write_value(setX*-1)
+            await setYVar.write_value(setY*-1)
+            #await myvar.write_value(new_val)
+            #await myvar2.write_value(new_val_2)
+>>>>>>> 12154ff (server_sqlite)
 
                 await self.vars[2].write_value(set_x * -1)
                 await self.vars[3].write_value(set_y * -1)
 
 if __name__ == '__main__':
+<<<<<<< HEAD
 <<<<<<< HEAD
     logging.basicConfig(level=logging.DEBUG)
 
@@ -138,10 +205,12 @@ if __name__ == '__main__':
     async def run_server():
         _logger = logging.getLogger('asyncua')
         logging.basicConfig(level=logging.DEBUG)
+=======
+>>>>>>> 12154ff (server_sqlite)
 
-        my_server = MyServer(set_x=5.0, set_y=7.0)
-        loop = asyncio.get_event_loop()
+    logging.basicConfig(level=logging.DEBUG)
 
+<<<<<<< HEAD
         # Initialize the server
         await my_server.initialize()
 
@@ -157,3 +226,6 @@ if __name__ == '__main__':
 
     asyncio.run(run_server())
 >>>>>>> 4f41d8e (Add new feature)
+=======
+    asyncio.run(main(), debug=True)
+>>>>>>> 12154ff (server_sqlite)
