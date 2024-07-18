@@ -1,5 +1,5 @@
 # [Adaptive Correlative Microscopy System](https://sites.google.com/stevens.edu/acms/home)
-2022 Senior Design Project by Tyler Wright and Jack Hymowitz. 
+2022 Senior Design Project by Aria Wright and Jack Hymowitz. 
 
 Proof of concept that can be adapted to support additional hardware for a correlative microscopy system.
 - Python code for controlling electron and optical microscopes
